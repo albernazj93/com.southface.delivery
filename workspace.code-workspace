@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "southface_delivery"
+		},
+		{
+			"name": "southface_inventory",
+			"path": "southface_inventory"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}
