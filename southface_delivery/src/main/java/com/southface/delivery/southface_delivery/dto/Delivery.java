@@ -1,4 +1,4 @@
-package com.southface.delivery.southface_delivery.entity;
+package com.southface.delivery.southface_delivery.dto;
 
 import java.io.Serializable;
 import java.util.List;

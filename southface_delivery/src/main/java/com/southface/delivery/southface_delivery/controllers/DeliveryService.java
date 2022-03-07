@@ -1,4 +1,4 @@
-package com.southface.delivery.southface_delivery;
+package com.southface.delivery.southface_delivery.controllers;
 
 import java.net.URI;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.southface.delivery.southface_delivery.dao.DeliveryRepository;
-import com.southface.delivery.southface_delivery.entity.Delivery;
+import com.southface.delivery.southface_delivery.dto.Delivery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "Deliveries", description = "Endpoints for managing deliveries")
-public class DeliveryController {
+public class DeliveryService {
     @Autowired
     DeliveryRepository deliveryRepository;
 
