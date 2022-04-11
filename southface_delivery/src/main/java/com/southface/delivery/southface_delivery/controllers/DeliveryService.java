@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import com.southface.delivery.southface_delivery.dao.DeliveryRepository;
 import com.southface.delivery.southface_delivery.dto.Delivery;
+import com.southface.delivery.southface_delivery.dto.Product;
+import com.southface.delivery.southface_delivery.feignclients.SouthfaceProductFeignClient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class DeliveryService {
     @Autowired
     DeliveryRepository deliveryRepository;
+
+    @Autowired
+    private SouthfaceProductFeignClient southfaceProductFeignClient;
 
     @GetMapping("/deliveries")
     @Operation(
@@ -56,6 +61,16 @@ public class DeliveryService {
             return new ResponseEntity<Delivery>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<Delivery>(optionalDelivery.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/deliveries/product/{productId}")
+    @Operation(
+        summary = "Finds a product",
+        description = "Finds a product by their Id.",
+        tags = { "Deliveries" }
+    )
+    public ResponseEntity<Product> getDeliveryProduct(@PathVariable int productId) {
+        return southfaceProductFeignClient.getProduct(productId);
     }
 
     @PostMapping("/deliveries")
