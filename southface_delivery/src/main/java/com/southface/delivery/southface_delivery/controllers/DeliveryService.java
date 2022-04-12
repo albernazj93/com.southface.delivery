@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.southface.delivery.southface_delivery.dao.DeliveryRepository;
 import com.southface.delivery.southface_delivery.dto.Delivery;
 import com.southface.delivery.southface_delivery.dto.Product;
@@ -33,7 +35,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class DeliveryService {
     @Autowired
     DeliveryRepository deliveryRepository;
-
+    
     @Autowired
     private SouthfaceProductFeignClient southfaceProductFeignClient;
 
@@ -49,6 +51,13 @@ public class DeliveryService {
         return new ResponseEntity<List<Delivery>>(listDelivery, HttpStatus.OK);
     }
 
+    @HystrixCommand(
+        fallbackMethod="getDeliveryFallback",
+        commandProperties={
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="500"),
+            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="3")
+        }
+    )
     @GetMapping("/deliveries/{deliveryId}")
     @Operation(
         summary = "Finds a delivery",
@@ -56,11 +65,22 @@ public class DeliveryService {
         tags = { "Deliveries" }
     )
     public ResponseEntity<Delivery> getDelivery(@PathVariable int deliveryId) {
+        // try {
+        //     Thread.sleep(3000);
+        // } catch (InterruptedException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+        
         Optional<Delivery> optionalDelivery = deliveryRepository.findById(deliveryId);
         if (!optionalDelivery.isPresent())
             return new ResponseEntity<Delivery>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<Delivery>(optionalDelivery.get(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Delivery> getDeliveryFallback(@PathVariable int deliveryId) {
+        return new ResponseEntity<Delivery>(new Delivery(1, "Fallback address"), HttpStatus.OK);
     }
 
     @GetMapping("/deliveries/product/{productId}")
