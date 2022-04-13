@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import com.southface.delivery.southface_product.dao.ProductRepository;
 import com.southface.delivery.southface_product.dto.Product;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/v1")
 @Tag(name = "Products", description = "Endpoints for managing products")
 public class ProductService {
+    Logger log = LoggerFactory.getLogger(ProductService.class);
+
     @Autowired
     ProductRepository productRepository;
 

@@ -13,6 +13,8 @@ import com.southface.delivery.southface_delivery.dto.Delivery;
 import com.southface.delivery.southface_delivery.dto.Product;
 import com.southface.delivery.southface_delivery.feignclients.SouthfaceProductFeignClient;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/v1")
 @Tag(name = "Deliveries", description = "Endpoints for managing deliveries")
 public class DeliveryService {
+    Logger log = LoggerFactory.getLogger(DeliveryService.class);
+
     @Autowired
     DeliveryRepository deliveryRepository;
     
@@ -46,6 +50,8 @@ public class DeliveryService {
         tags = { "Deliveries" }
     )
     public ResponseEntity<List<Delivery>> getDelivery() {
+        log.info("/deliveries DeliveryService.getDelivery");
+
         List<Delivery> listDelivery = (List<Delivery>)deliveryRepository.findAll();
 
         return new ResponseEntity<List<Delivery>>(listDelivery, HttpStatus.OK);
@@ -65,13 +71,8 @@ public class DeliveryService {
         tags = { "Deliveries" }
     )
     public ResponseEntity<Delivery> getDelivery(@PathVariable int deliveryId) {
-        // try {
-        //     Thread.sleep(3000);
-        // } catch (InterruptedException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-        
+        log.info("/deliveries/{deliveryId} DeliveryService.getDelivery");
+
         Optional<Delivery> optionalDelivery = deliveryRepository.findById(deliveryId);
         if (!optionalDelivery.isPresent())
             return new ResponseEntity<Delivery>(HttpStatus.NOT_FOUND);
