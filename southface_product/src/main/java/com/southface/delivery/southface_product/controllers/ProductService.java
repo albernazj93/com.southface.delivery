@@ -48,7 +48,7 @@ public class ProductService {
         return new ResponseEntity<List<Product>>(listProduct, HttpStatus.OK);
     }
 
-    @GetMapping("/product/{productId}")
+    @GetMapping("/products/{productId}")
     @Operation(
         summary = "Finds a product",
         description = "Finds a product by their Id.",
@@ -62,7 +62,7 @@ public class ProductService {
         return new ResponseEntity<Product>(optionalProduct.get(), HttpStatus.OK);
     }
 
-    @PostMapping("/product")
+    @PostMapping("/products")
     @Operation(
         summary = "Creates a product",
         description = "Creates a new product.",
@@ -79,7 +79,7 @@ public class ProductService {
         return ResponseEntity.created(location).body(newProduct);
     }
 
-    @PutMapping("/product/{productId}")
+    @PutMapping("/products/{productId}")
     @Operation(
         summary = "Updates a product",
         description = "Updates a product by their Id.",
@@ -94,6 +94,7 @@ public class ProductService {
 
         existingProduct.setName(product.getName());
         existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setDescription(product.getDescription());
         
         return new ResponseEntity<Product>(productRepository.save(existingProduct), HttpStatus.OK);
     }

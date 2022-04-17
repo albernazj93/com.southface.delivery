@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient("SOUTHFACE-PRODUCT")
 public interface SouthfaceProductFeignClient {
-    @GetMapping("/api/v1/product/{productId}")
+    @GetMapping("/api/v1/products/{productId}")
     ResponseEntity<Product> getProduct(@PathVariable int productId);
 }

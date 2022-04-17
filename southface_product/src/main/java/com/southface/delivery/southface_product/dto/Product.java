@@ -24,15 +24,19 @@ public class Product implements Serializable {
     @Column(nullable=false)
     private String name;
 
+    @Column(nullable=true)
+    private String description;
+
     @Column(nullable=false)
     private int quantity;
 
     public Product(){}
 
-    public Product(int id, String name, int quantity){
+    public Product(int id, String name, int quantity, String description){
         this.id = id;
         this.name = name;
         this.quantity = quantity;
+        this.description = description;
     }
 
     public int getId() {
@@ -49,6 +53,14 @@ public class Product implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getQuantity() {

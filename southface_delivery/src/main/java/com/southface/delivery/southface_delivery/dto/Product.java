@@ -28,25 +28,23 @@ public class Product implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @NotNull(message="Can not be null")
-    @NotBlank(message="Can not be empty")
-    @Column(nullable=false)
-    private String name;
-
-    @Min(1)
-    @NotNull(message="Can not be null")
-    @Column(nullable=false)
-    private int quantity;
-
     @ManyToMany(mappedBy = "products")
     @JsonIgnore
     private List<Delivery> deliveries;
 
+    @Column(name = "product_id")
+    @NotNull(message="Can not be null")
+    private int product_id;
+
+    private String name;
+    private int quantity;
+    private String description;
+
     public Product(){}
 
-    public Product(int id, String name, int quantity){
+    public Product(int id, int product_id, int quantity){
         this.id = id;
-        this.name = name;
+        this.product_id = product_id;
         this.quantity = quantity;
     }
 
@@ -58,12 +56,28 @@ public class Product implements Serializable {
         this.id = id;
     }
 
+    public int getProductId() {
+        return product_id;
+    }
+
+    public void setProductId(int product_id) {
+        this.product_id = product_id;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getQuantity() {

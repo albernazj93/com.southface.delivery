@@ -28,7 +28,7 @@ public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-            .withClient("wine-manager-client").secret("{noop}secretwinepassword")
+            .withClient("southface-delivery").secret("{noop}deliverypassword")
             .authorizedGrantTypes ("password", "client_credentials")
             .scopes ("webclient", "mobileclient");
     }

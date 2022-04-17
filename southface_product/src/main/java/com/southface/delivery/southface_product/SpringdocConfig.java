@@ -9,7 +9,7 @@ public class SpringdocConfig {
     @Bean
     public GroupedOpenApi api(){
         return GroupedOpenApi.builder()
-            .pathsToMatch("/")
+            .pathsToMatch("/api/v1/**")
             .group("product")
             .build();
     }
