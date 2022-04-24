@@ -55,7 +55,7 @@ public class DeliveryService {
         List<Delivery> listDelivery = (List<Delivery>)deliveryRepository.findAll();
 
         listDelivery.stream().forEach(d -> d.getProducts().forEach(p -> {
-            Product product = southfaceProductFeignClient.getProduct(p.getProductId()).getBody();
+            Product product = southfaceProductFeignClient.getProduct(p.getExtProductId()).getBody();
             p.setName(product.getName());
             p.setQuantity(product.getQuantity());
             p.setDescription(product.getDescription());
@@ -64,13 +64,13 @@ public class DeliveryService {
         return new ResponseEntity<List<Delivery>>(listDelivery, HttpStatus.OK);
     }
 
-    // @HystrixCommand(
-    //     fallbackMethod="getDeliveryFallback",
-    //     commandProperties={
-    //         @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="500"),
-    //         @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="3")
-    //     }
-    // )
+    @HystrixCommand(
+        fallbackMethod="getDeliveryFallback",
+        commandProperties={
+            @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="1000"),
+            @HystrixProperty(name="circuitBreaker.requestVolumeThreshold", value="3")
+        }
+    )
     @GetMapping("/deliveries/{deliveryId}")
     @Operation(
         summary = "Finds a delivery",
@@ -87,19 +87,9 @@ public class DeliveryService {
         return new ResponseEntity<Delivery>(optionalDelivery.get(), HttpStatus.OK);
     }
 
-    // public ResponseEntity<Delivery> getDeliveryFallback(@PathVariable int deliveryId) {
-    //     return new ResponseEntity<Delivery>(new Delivery(1, "Fallback address"), HttpStatus.OK);
-    // }
-
-    // @GetMapping("/deliveries/product/{productId}")
-    // @Operation(
-    //     summary = "Finds a product",
-    //     description = "Finds a product by their Id.",
-    //     tags = { "Deliveries" }
-    // )
-    // public ResponseEntity<Product> getDeliveryProduct(@PathVariable int productId) {
-    //     return southfaceProductFeignClient.getProduct(productId);
-    // }
+    public ResponseEntity<Delivery> getDeliveryFallback(@PathVariable int deliveryId) {
+        return new ResponseEntity<Delivery>(new Delivery(1, "Fallback address"), HttpStatus.OK);
+    }
 
     @PostMapping("/deliveries")
     @Operation(
@@ -111,6 +101,13 @@ public class DeliveryService {
         log.info("/addDelivery/ DeliveryService.addDelivery");
 
         Delivery newDelivery = deliveryRepository.save(delivery);
+
+        newDelivery.getProducts().stream().forEach(p -> {
+            Product product = southfaceProductFeignClient.getProduct(p.getExtProductId()).getBody();
+            p.setName(product.getName());
+            p.setQuantity(product.getQuantity());
+            p.setDescription(product.getDescription());
+        });
 
         URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{deliveryId}")

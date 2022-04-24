@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Test")
+@Schema(description = "Products")
 @Entity
 @Table(name = "products")
 public class Product implements Serializable {
@@ -32,19 +32,22 @@ public class Product implements Serializable {
     @JsonIgnore
     private List<Delivery> deliveries;
 
-    @Column(name = "product_id")
-    @NotNull(message="Can not be null")
-    private int product_id;
-
     private String name;
     private int quantity;
+    private int extProductId;
+
     private String description;
 
     public Product(){}
 
-    public Product(int id, int product_id, int quantity){
+    public Product(int extProductId, int quantity){
+        this.extProductId = extProductId;
+        this.quantity = quantity;
+    }
+
+    public Product(int id, int extProductId, int quantity){
         this.id = id;
-        this.product_id = product_id;
+        this.extProductId = extProductId;
         this.quantity = quantity;
     }
 
@@ -56,12 +59,12 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public int getProductId() {
-        return product_id;
+    public int getExtProductId() {
+        return extProductId;
     }
 
-    public void setProductId(int product_id) {
-        this.product_id = product_id;
+    public void setExtProductId(int extProductId) {
+        this.extProductId = extProductId;
     }
 
     public String getName() {

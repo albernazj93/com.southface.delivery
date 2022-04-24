@@ -1,4 +1,4 @@
-INSERT INTO PRODUCTS (id, product_id, quantity) values (1, 1, 50);
+INSERT INTO PRODUCTS (id, ext_product_id, quantity) values (1, 1, 50);
 -- INSERT INTO PRODUCTS(id, id_product, quantity) values (2, 1, 15);
 -- INSERT INTO PRODUCTS(id, id_product, quantity) values (3, 1, 150);
 -- INSERT INTO PRODUCTS(id, id_product, quantity) values (4, 1, 300);

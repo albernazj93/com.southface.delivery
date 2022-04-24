@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Test")
+@Schema(description = "Deliveries")
 @Entity
 @Table(name = "deliveries")
 public class Delivery implements Serializable {

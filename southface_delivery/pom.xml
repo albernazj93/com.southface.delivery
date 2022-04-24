@@ -13,9 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>southface_delivery</name>
 	<description>Demo project for Spring Boot</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Hoxton.SR10</spring-cloud.version>
+		<lombok-version>1.18.12</lombok-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -110,6 +112,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+					<path>
+						<groupId>org.projectlombok</groupId>     
+						<artifactId>lombok</artifactId>
+						<version>${lombok.version}</version>
+					</path>
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
