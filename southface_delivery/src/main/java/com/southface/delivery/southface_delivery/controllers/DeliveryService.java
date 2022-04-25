@@ -78,7 +78,7 @@ public class DeliveryService {
         tags = { "Deliveries" }
     )
     public ResponseEntity<Delivery> getDelivery(@PathVariable int deliveryId) {
-        log.info("/deliveries/{deliveryId} DeliveryService.getDelivery2");
+        log.info("/deliveries/{deliveryId} DeliveryService.getDelivery");
 
         Optional<Delivery> optionalDelivery = deliveryRepository.findById(deliveryId);
         if (!optionalDelivery.isPresent())
